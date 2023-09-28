@@ -1,0 +1,83 @@
+.register-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+     /* Isso irá centralizar verticalmente */
+    max-width: 100%;
+    
+    /* Evita que o formulário se estenda demais */
+}
+
+.register-section {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    gap: 1rem;
+    
+    
+}
+
+.input-box{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-left: 115px;
+
+}
+
+.input-field {
+    width: 42rem;
+    height: 4.5rem;
+    border-radius: 32px;
+    background-color: #EAE1E1;
+    margin-bottom: 10px;
+    border: none;
+    outline: none;
+    padding: 0.5rem; 
+    padding-left: 2rem;
+  }
+  
+.buttonR {
+    font-size: 2rem;
+    font-weight: bolder;
+    box-shadow: #696969;
+    margin-top: 3rem;
+    width: 25rem;
+    margin-left: 80px;
+    transition: filter 0.8s, font-size 1s;
+}
+.buttonR:hover{
+    filter: brightness(0.9);
+    font-size: 2.3rem;
+  }
+  .title{
+    margin-bottom: 10px;
+    font-family: 'Modak', cursive;
+    font-size: 70px;
+    font-weight: 400;
+    color: #8659E4;
+    
+  }
+
+  .dogWalk {
+    transform: scale(0.5);
+    margin-top: -10rem;  
+    margin-bottom: -10rem;
+  }
+  button {
+    width: 400px;
+    height: 40px;
+    border-radius: 32px;
+    background-color: #d6abeb;
+    font-weight: bolder;
+    color: white;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    
+  }
+
+

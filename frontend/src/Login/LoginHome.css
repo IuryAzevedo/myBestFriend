@@ -1,0 +1,80 @@
+.login-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: white;
+    
+  }
+  
+  .header-image {
+    transform: scale(0.7);
+    width: 85rem;
+  }
+
+  .input-box-L {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .input-field {
+    width: 42rem;
+    height: 4.5rem;
+    border-radius: 32px;
+    background-color: #EAE1E1;
+    margin-bottom: 10px;
+    border: none;
+    outline: none;
+    padding: 0.5rem; 
+    padding-left: 2rem;
+  }
+  
+  button {
+    width: 400px;
+    height: 40px;
+    border-radius: 32px;
+    background-color: #d6abeb;
+    font-weight: bolder;
+    color: white;
+    margin-top: 10px;
+    border: none;
+    cursor: pointer;
+    
+  }
+  
+  .btLogin {    
+    font-size: 2rem;
+    font-weight: bolder;
+    box-shadow: #696969;
+    margin-top: 3rem;
+    width: 25rem;
+    transition: filter 0.8s, font-size 1s;
+  }
+
+  .btLogin:hover{
+    filter: brightness(0.9);
+    font-size: 2.3rem;
+  }
+
+  .aRegister {
+    font-weight: bolder;
+    box-shadow: #696969;
+    margin-top: 4rem;    
+    font-size: 1.5rem;
+    width: 25rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color:#333
+  }
+
+  .cadastroStyle {
+    text-decoration: none; 
+    color: #8659E4;
+  }
+
+.catGif {
+  transform: scale(0.5);
+  margin-top: -10rem;  
+  margin-bottom: -10rem;
+}
+  
