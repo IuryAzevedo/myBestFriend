@@ -1,0 +1,98 @@
+/* styles.css (ou o nome do seu arquivo CSS) */
+
+/* Centralize o contêiner principal verticalmente e horizontalmente */
+.r-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fafafa; /* Adicione uma borda azul com 2px de largura */
+    border-width: 2px 4px;
+    border-radius: 32px; /* 2px de largura nas bordas superior e inferior, 4px nas bordas esquerda e direita */
+    padding: 20px; 
+    box-shadow: #000000;
+  }
+  
+  .r-form {
+    text-align: center;
+    flex-direction: column;
+  }
+  
+
+  .hungryCat {
+    display: flex;
+    margin-left: -200px;
+    justify-content: center;
+    align-items: center;
+    width: 200%;
+    height: 200px;
+    margin-bottom: 20px;
+  }
+  .input-box-racoes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .input-racoes {
+    width: 42rem;
+    height: 4.5rem;
+    border-radius: 32px;
+    background-color: #EAE1E1;
+    margin-bottom: 10px;
+    border: none;
+    outline: none;
+    padding: 0.5rem; 
+    padding-left: 2rem;
+
+  }
+  
+
+  .btAdd {
+    width: 400px;
+    height: 40px;
+    border-radius: 32px;
+    background-color: #9c4fc2;
+    font-weight: bolder;
+    color: white;
+    margin-top: 10px;
+    margin-left: 10px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btAdd span {
+    font-weight: bold;
+    font-size: 24px;
+
+  }
+
+  .nameScreenR {
+    font-size: 40px;
+    font-family: Modak, cursive;
+    color: blueviolet;
+  }
+
+.date {
+    font-size: 16px;
+    color: #333;
+    background-color: #fafafa;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 6px 8px;
+    margin-bottom: 15px;
+}
+
+.bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; 
+    object-fit: cover; 
+    opacity: 0.5; 
+}
+
+  
+  

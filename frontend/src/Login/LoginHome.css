@@ -30,7 +30,7 @@
     padding-left: 2rem;
   }
   
-  button {
+  .btLogin {    
     width: 400px;
     height: 40px;
     border-radius: 32px;
@@ -41,9 +41,6 @@
     border: none;
     cursor: pointer;
     
-  }
-  
-  .btLogin {    
     font-size: 2rem;
     font-weight: bolder;
     box-shadow: #696969;

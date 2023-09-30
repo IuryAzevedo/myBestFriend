@@ -2,6 +2,7 @@ import { FormEvent, useContext, useState } from "react";
 import { api } from "../services/api";
 import { AuthContext } from "../context/AuthContext";
 import videoref from "../assets/video/dogWalk.mp4";
+import {toast} from 'react-toastify'
 // import { Navigate } from "react-router-dom";
 import './Cadastro.css'
 
@@ -17,7 +18,7 @@ export default function Register() {
     e.preventDefault(); // Evita o comportamento padrão do formulário
 
     if (nome === "" || email === "" || password === "") {
-      alert("Você deve preencher todos os campos");
+      toast.warning("Preencha todos os campos");
       return;
     }
 
@@ -29,12 +30,12 @@ export default function Register() {
       console.log("Resposta do servidor:", response);
 
       if (response.status === 200) {
-        console.log("Registro bem-sucedido");
+        toast.success("Registro bem-sucedido");
         signIn({ email, password });
         window.location.href = "/";
       } else {
         console.log("O registro falhou. Tente novamente.");
-        alert("O registro falhou. Tente novamente.");
+        toast.error("O registro falhou. Tente novamente.");
       }
     } catch (error) {
       console.error("Erro durante o registro:", error);

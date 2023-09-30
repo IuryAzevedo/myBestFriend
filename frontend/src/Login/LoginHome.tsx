@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import HeaderImage from "../assets/MBF.png";
 import videoref from "../assets/video/cat.mp4";
+import {toast} from 'react-toastify'
 import "./LoginHome.css";
 
 export default function LoginHome() {
@@ -11,10 +12,11 @@ export default function LoginHome() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigate();
+  
   async function handleLogin(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (email === "" || password === "") {
-      alert("Você deve preencher todos os campos");
+      toast.warning("Preencha todos os campos");
       return;
     }
 
@@ -25,7 +27,7 @@ export default function LoginHome() {
       })
       .catch((error) => {
         console.log("Erro ao tentar fazer login:", error);
-        alert("Erro ao fazer login. Verifique suas credenciais.");
+        toast.error("Erro ao fazer login. Verifique suas credenciais.");
       });
   }
   return (

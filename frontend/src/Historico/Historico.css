@@ -1,0 +1,108 @@
+.container-G {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fafafa;    
+}
+.money-video {
+    transform: scale(0.5);
+    margin-top: -5rem;  
+    margin-bottom: -5rem;
+}
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; 
+  object-fit: cover; 
+  opacity: 0.5; 
+}
+
+.HC-TEXT{
+    font-family: Modak, cursive;
+    color: blueviolet;
+    font-size: 40px;
+    font-weight: 400;
+    margin-bottom: 2px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 32px;   
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  font-size: 20px;
+   
+}
+
+.table-header {
+    background-color: blueviolet; 
+    color: #fff; 
+    font-weight: bold;
+    font-size: 25PX; 
+} 
+
+
+
+
+.TEXT-GASTO {
+    font-size: 25px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.money-text {
+    font-size: 25px;
+    margin-top: 5px;
+    color: red;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.container-H {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.table-container {
+    flex: 1; 
+    padding-right: 20px; 
+}
+  
+.total-gasto-container {
+    flex: 1; 
+    background-color: #fafafa;
+    padding-left: 20px;
+    border-radius: 28px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    max-width: 370px;
+}
+
+.bt-delete {
+    height: 20px;
+    width: 50px;
+    border-radius: 5px;
+    margin-left: 10px;
+    background: transparent; 
+}
+
+.delete-bt {
+    height: 150%; /* Define a altura da imagem para 100% do elemento pai */
+    width: 150%; /* Define a largura da imagem para 100% do elemento pai */
+    object-fit: contain;
+}
+
+

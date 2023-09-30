@@ -32,12 +32,12 @@ type SignInProps = {
   password: string;
 };
 
-// interface SignInResponseProps{
-//     id: string,
-//     nome: string,
-//     email: string,
-//     token: string
-// }
+interface SignInResponseProps{
+    id: string,
+    nome: string,
+    email: string,
+    token: string
+}
 
 export const AuthContext = createContext({} as AuthContextData);
 
@@ -67,50 +67,42 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
   
 
-  // async function cadastrarRacao(racaoData: RacaoProps) {
-  //   try {
-  //     const response = await api.post("/addracao", racaoData);
-  //     // Manipule a resposta, se necessário
-  //     return response.data;
-  //   } catch (error) {
-  //     // Trate os erros, se necessário
-  //     throw error;
-  //   }
-  // }
 
-  async function signIn({email, password}: SignInProps){
-    console.log("signIn");
-    
-    await api.post("/session", {email, password}).then((response)=>{
-      console.log("response",response);
-      
-      const token = response.data.token
-      localStorage.setItem("@myBestfriend", JSON.stringify(token))
-      return token
-
-    }).catch((error)=>{
-      console.log("error", error);
-      return null
+  async function signIn({ email, password }: SignInProps) {
+    try {
+      const response = await api.post("/session", { email, password });
+      const userData: SignInResponseProps = response.data;
+      console.log(userData.token, 'login')
       
 
-    })
+      await localStorage.setItem("@myBestfriend", JSON.stringify(userData));
+      await localStorage.setItem("@myBestfriendToken", userData.token);
+      
+      
+      setUser(userData);
+    } catch (error) {
+      console.log("Erro ao fazer login:", error);
+      throw error;
+    }
   }
   
+  
 
-  // async function singOut() {
-    
-  //   await localStorage.clear().then( () => {
+  // async function signOut() {
+  //   try {
+  //     await localStorage.clear();
   //     setUser({
-  //       id: '',
-  //       nome: '',
-  //       email: '',
-  //       token: ''
-  //     })
+  //       id: "",
+  //       nome: "",
+  //       email: "",
+  //       token: "",
+  //     });
+      
+  //     navigation.navigate('SignIn'); 
+  //   } catch (error) {
+  //     console.error("Erro durante o logout:", error);
+  //     throw error;
   //   }
-
-  //   )
-
-
   // }
 
   return (
