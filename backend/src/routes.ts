@@ -14,6 +14,8 @@ import { CadastroPetsController } from "./controllers/pet/CadastroPetsController
 //rotas rações
 import { ListaRacaoController } from "./controllers/racao/ListaRacaoController";
 import { AddRacaoController } from "./controllers/racao/AddRacaoController";
+import { ListaPetsController } from "./controllers/pet/ListaPetsController";
+import { DeleteRacaoController } from "./controllers/racao/DeleteRacaoController";
 
 
 
@@ -27,10 +29,12 @@ router.get('/userinfo', isAuthAtheticated, new DetailUserController().handle)
 
 // ---- ROTAS PETS ----
 router.post('/addpets', isAuthAtheticated, new CadastroPetsController().handle)
+router.post('/listapets', isAuthAtheticated, new ListaPetsController().handle)
 
 // ---- ROTAS RACOES ---- 
 router.post('/addracao', isAuthAtheticated, new AddRacaoController().handle)
 router.post('/racoes', isAuthAtheticated, new ListaRacaoController().handle)
+router.delete('/deleteR/:itemId', isAuthAtheticated, new DeleteRacaoController().handle)
 
 
 export { router };

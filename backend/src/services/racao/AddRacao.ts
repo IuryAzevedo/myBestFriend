@@ -10,6 +10,7 @@ interface AddRacaoRequest {
     dataRacao: Date
     owner_id: string
    
+   
 } 
 
 class AddRacao {

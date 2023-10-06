@@ -4,7 +4,7 @@ import { AddRacao } from "../../services/racao/AddRacao";
 class AddRacaoController {
     async handle(req: Request, res: Response) {
         
-        const {nome, tipo, preco, quantidade, dataRacao } = req.body
+        const {nome, tipo, preco, quantidade, dataRacao,  } = req.body
         const owner_id = req.user_id
         
         if (!owner_id) {
@@ -22,7 +22,7 @@ class AddRacaoController {
             quantidade, 
             dataRacao,
             owner_id
-            
+           
           
         })
         return res.json(cadastro)

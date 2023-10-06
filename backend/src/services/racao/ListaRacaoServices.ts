@@ -4,12 +4,10 @@ import prismaClient from "../../prisma";
 
 class ListaRacaoService {
     async execute(req, res){
-        console.log("req", req.body);
-        
         const user_id = req.body.user_id
         const category = await prismaClient.racao.findMany({
             where: {
-                owner_id: user_id
+                owner_id: user_id,
             },
             select:{
                 id: true,
