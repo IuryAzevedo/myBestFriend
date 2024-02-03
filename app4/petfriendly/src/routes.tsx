@@ -10,6 +10,7 @@ import User from './pages/User';
 import Historic from './pages/Historic';
 import Pet from './pages/Pet';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -83,6 +84,7 @@ export const MainTabNavigator = () => (
 export const AppNavigator = () => (
   <Stack.Navigator>
     <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+    <Stack.Screen name='Register' component={Register} options={{headerShown: false}} />
     <Stack.Screen name="Main" component={MainTabNavigator} options={{ headerShown: false }} />
   </Stack.Navigator>
 );
