@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,12 +10,35 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-gesture-handler";
 import LottieView from "lottie-react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AuthContext } from "../../context/AuthContext";
+import { Toast } from "toastify-react-native";
 
 function Login() {
+  const { singIn } = useContext(AuthContext)
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState('');
+
+
+
+  async function handleLogin() {
+    if (email === '' || password === '') {
+      Toast.warn('preencha todos os campos', 'top')
+      return;
+    }
+
+    await singIn({ email, password })
+    .then(() => {
+      console.log('usuário logado');
+      handleLoginPress()
+    }) .catch((error) => {
+      console.log('erro ao fazer login', error);
+      Toast.error('erro ao fazer login', 'top')
+    })
+  }
+
   const handleLoginPress = () => {
     //@ts-ignore
     navigation.navigate("Main");
@@ -23,6 +46,10 @@ function Login() {
   const handleRegisterPress = () => {
     ///@ts-ignore
     navigation.navigate("Register");
+  };
+  const toggleShowPassword = () => {
+    //@ts-ignore
+    setShowPassword(!showPassword);
   };
   const dismissKeyboard = () => {
     Keyboard.dismiss();
@@ -41,19 +68,26 @@ function Login() {
         </View>
         <TextInput
           placeholder="email"
+          autoCapitalize='none' keyboardType="email-address"
           style={styles.input}
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
-        <TextInput
-          placeholder="password"
-          style={styles.input}
-          value={password}
-          onChangeText={(password) => setPassword(password)}
-          secureTextEntry
-        />
+        <View style={styles.passContainer}>
+          <TextInput
+            placeholder="password"
+            style={styles.input}
+            value={password}
+            maxLength={20}
+            onChangeText={(password) => setPassword(password)}
+            secureTextEntry={!showPassword}
+          />
+          <TouchableOpacity style={styles.eyeIcon} onPress={toggleShowPassword}>
+            <Ionicons name={showPassword ? "eye-off" : "eye"} size={24} color="black" />
+          </TouchableOpacity>
+        </View>
 
-        <TouchableOpacity style={styles.login} onPress={handleLoginPress}>
+        <TouchableOpacity style={styles.login} onPress={handleLogin}>
           <Text style={{ color: "#fafafa" }}>Login</Text>
         </TouchableOpacity>
         <View>
@@ -125,6 +159,15 @@ const styles = StyleSheet.create({
   lottie: {
     width: 200,
     height: 200,
+  },
+  passContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: 10,
+    top: 10
   },
 });
 

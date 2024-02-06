@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Keyboard, TouchableWithoutFeedback, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { TextInput, } from "react-native-gesture-handler";
+import { ScrollView, TextInput, } from "react-native-gesture-handler";
 import LottieView from "lottie-react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { api } from "../../services/api";
 import { Toast } from 'toastify-react-native';
 import { AuthContext } from "../../context/AuthContext";
 import { Animations } from 'react-native-modal'
+import { StatusBar } from "expo-status-bar";
 
 
 
@@ -68,52 +69,52 @@ function Register() {
   return (
 
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
-      <View style={styles.container}>
-        <View style={styles.goBackButton}>
-          <TouchableOpacity style={styles.goBackButton} onPress={handleGoback}>
-            <Ionicons name="chevron-back-outline" size={24} color="black" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.lottieView}>
-          <LottieView
-            style={styles.lottie}
-            source={require("../../assets/dog.json")}
-            autoPlay
-            loop
-          />
-        </View>
-        <Text style={styles.namesInputs}>Name</Text>
-        <TextInput
-          placeholder="name"
-          style={styles.input}
-          value={nome}
-          onChangeText={(nome) => setNome(nome)}
-        />
-        <Text style={styles.namesInputs}>Email</Text>
-        <TextInput
-          placeholder="email"
-          style={styles.input}
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-        />
-        <Text style={styles.namesInputs}>Password</Text>
-        <View style={styles.passContainer}>
-          <TextInput
-            placeholder="password"
-            style={styles.input}
-            value={password}
-            onChangeText={(password) => setPassword(password)}
-            secureTextEntry={!showPassword}
-          />
-          <TouchableOpacity style={styles.eyeIcon} onPress={toggleShowPassword}>
-            <Ionicons name={showPassword ? "eye-off" : "eye"} size={24} color="black" />
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={styles.login} onPress={handleRegister}>
-          <Text style={{ color: "#fafafa" }}>Register</Text>
-        </TouchableOpacity>
-      </View>
-
+          <View style={styles.container}>
+            <View style={styles.goBackButton}>
+              <TouchableOpacity style={styles.goBackButton} onPress={handleGoback}>
+                <Ionicons name="chevron-back-outline" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.lottieView}>
+              <LottieView
+                style={styles.lottie}
+                source={require("../../assets/dog.json")}
+                autoPlay
+                loop
+              />
+            </View>
+            <Text style={styles.namesInputs}>Name</Text>
+            <TextInput
+              placeholder="name" autoCapitalize='none'
+              style={styles.input} maxLength={50}
+              value={nome}
+              onChangeText={(nome) => setNome(nome)}
+            />
+            <Text style={styles.namesInputs}>Email</Text>
+            <TextInput
+              placeholder="email" autoCapitalize='none'
+              style={styles.input} keyboardType="email-address"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+            />
+            <Text style={styles.namesInputsP}>Password</Text>
+            <View style={styles.passContainer}>
+              <TextInput
+                placeholder="password"
+                style={styles.input} maxLength={20}
+                value={password}
+                onChangeText={(password) => setPassword(password)}
+                secureTextEntry={!showPassword}
+              />
+              <TouchableOpacity style={styles.eyeIcon} onPress={toggleShowPassword}>
+                <Ionicons name={showPassword ? "eye-off" : "eye"} size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity style={styles.login} onPress={handleRegister}>
+              <Text style={{ color: "#fafafa" }}>Register</Text>
+            </TouchableOpacity>
+            <Text style={styles.info}>Register your account, if you don't have!</Text>
+          </View>
     </TouchableWithoutFeedback>
 
 
@@ -126,6 +127,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fafafa",
+    paddingBottom: 20,
   },
   text: {
     fontSize: 15,
@@ -173,9 +175,16 @@ const styles = StyleSheet.create({
     right: 10,
     top: 10
   },
-  namesInputs:{
-    position: ''
-  }
+  namesInputs: {
+    marginRight: 250
+  },
+  namesInputsP: {
+    marginRight: 230
+  },
+  info: {
+    top: 5
+  },
+
 });
 
 export default Register;
