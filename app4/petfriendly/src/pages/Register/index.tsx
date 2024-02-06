@@ -5,9 +5,9 @@ import { TextInput, } from "react-native-gesture-handler";
 import LottieView from "lottie-react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { api } from "../../services/api";
-import ToastManager, { Toast } from 'toastify-react-native';
+import { Toast } from 'toastify-react-native';
 import { AuthContext } from "../../context/AuthContext";
-import {Animations} from 'react-native-modal'
+import { Animations } from 'react-native-modal'
 
 
 
@@ -18,29 +18,29 @@ function Register() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState('');
 
 
   async function handleRegister() {
     if (nome === "" || email === "" || password === "") {
-      Toast.warn("Preencha todos os campos!", 'center')
+      Toast.warn("Preencha todos os campos!", 'top  ')
     }
     try {
       console.log('tentando registrar');
       const response = await api.post('/users', { nome, email, password })
       console.log("Resposta do servidor:", response);
       if (response.status === 200) {
-        Toast.success('Registro bem sucedido', 'center')
+        Toast.success('Registro bem sucedido', 'top')
         singIn({ email, password })
-        handleLoginPress()
-
+        handleLoginPress();
       } else {
         console.log('O registro falhou, tente novamente!');
-        Toast.error('O registro falhou, tente novamente!', 'center');
+        Toast.error('O registro falhou, tente novamente!', 'top');
       }
 
     } catch (error) {
       console.log('Erro durante o registro', error);
-      Toast.warn('O registro falhou devido a um erro de rede', 'center')
+      Toast.warn('O registro falhou otário', 'top')
     }
   }
 
@@ -55,6 +55,10 @@ function Register() {
     //@ts-ignore
     navigation.navigate('Login')
   }
+  const toggleShowPassword = () => {
+    //@ts-ignore
+    setShowPassword(!showPassword);
+  };
 
   const dismissKeyboard = () => {
 
@@ -66,11 +70,10 @@ function Register() {
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={styles.container}>
         <View style={styles.goBackButton}>
-          <TouchableOpacity onPress={handleGoback}>
-            <Ionicons nome="chevron-back" size={24} color="black" />
+          <TouchableOpacity style={styles.goBackButton} onPress={handleGoback}>
+            <Ionicons name="chevron-back-outline" size={24} color="black" />
           </TouchableOpacity>
         </View>
-
         <View style={styles.lottieView}>
           <LottieView
             style={styles.lottie}
@@ -79,29 +82,36 @@ function Register() {
             loop
           />
         </View>
+        <Text style={styles.namesInputs}>Name</Text>
         <TextInput
-          placeholder="nome"
+          placeholder="name"
           style={styles.input}
           value={nome}
           onChangeText={(nome) => setNome(nome)}
         />
+        <Text style={styles.namesInputs}>Email</Text>
         <TextInput
           placeholder="email"
           style={styles.input}
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
-        <TextInput
-          placeholder="password"
-          style={styles.input}
-          value={password}
-          onChangeText={(password) => setPassword(password)}
-        />
-
+        <Text style={styles.namesInputs}>Password</Text>
+        <View style={styles.passContainer}>
+          <TextInput
+            placeholder="password"
+            style={styles.input}
+            value={password}
+            onChangeText={(password) => setPassword(password)}
+            secureTextEntry={!showPassword}
+          />
+          <TouchableOpacity style={styles.eyeIcon} onPress={toggleShowPassword}>
+            <Ionicons name={showPassword ? "eye-off" : "eye"} size={24} color="black" />
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity style={styles.login} onPress={handleRegister}>
           <Text style={{ color: "#fafafa" }}>Register</Text>
         </TouchableOpacity>
-      <ToastManager animationOutTiming={5000}/>
       </View>
 
     </TouchableWithoutFeedback>
@@ -151,8 +161,20 @@ const styles = StyleSheet.create({
   },
   goBackButton: {
     position: 'absolute',
-    top: 80,
-    left: 40
+    top: 40,
+    left: 20
+  },
+  passContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  eyeIcon: {
+    position: 'absolute',
+    right: 10,
+    top: 10
+  },
+  namesInputs:{
+    position: ''
   }
 });
 
