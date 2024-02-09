@@ -31,6 +31,7 @@ function Login() {
 
     await singIn({ email, password })
     .then(() => {
+      Toast.success('Bem vindo!' )
       console.log('usuário logado');
       handleLoginPress()
     }) .catch((error) => {

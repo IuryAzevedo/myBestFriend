@@ -1,26 +1,55 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, StyleSheet, Keyboard, TouchableOpacity, TouchableWithoutFeedback, Image } from "react-native";
 import { TextInput, } from "react-native-gesture-handler";
-import DatePicker from 'react-native-date-picker'
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import LottieView from "lottie-react-native";
-export default function Pet() {
+import { api } from "../../services/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Toast } from "toastify-react-native";
+import { AuthContext } from "../../context/AuthContext";
 
+export default function Pet() {
+    const { user } = useContext(AuthContext)
     const [nome, setNome] = useState('');
     const [idade, setIdade] = useState<number | undefined>(undefined);
     const [tipo, setTipo] = useState('');
     const [raca, setRaca] = useState('');
-    // const [open, setOpen] = useState(false);
-    // const [showDatePicker, setShowDatePicker] = useState(false);
+    const [cadastroSucesso, setCadastroSucesso] = useState(false);
+
+    const handleSubmit = async () => {
+        if(!user) {
+            console.log('Usuário não autenticado');
+            return
+        }
+
+        const token = await AsyncStorage.getItem('@myBestFriendToken');
+        cadastroPet(token);
+    }
+
+    async function cadastroPet(token: string | null) {
+        try {
+            const requestBody = {
+                nome,
+                idade,
+                tipo,
+                raca,
+                // owner_id: user.id
+            };
+            await api.post('/addpets', requestBody, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            Toast.success('Pet cadastrado', 'top');
+            setCadastroSucesso(true);
+        } catch (error) {
+            console.log('Erro ao cadastrar pet', error);
+            Toast.error('Erro ao cadastrar', 'top');
+        }
+    }
 
     const dismissKeyboard = () => {
         Keyboard.dismiss()
     }
-    // const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    //     const currentDate = selectedDate || idade;
-    //     setIdade(currentDate);
-    //     setShowDatePicker(false);
-    // }
 
     const handleIdadeChange = (idadeString: string) => {
         const idadeNumber = parseInt(idadeString);
@@ -39,11 +68,14 @@ export default function Pet() {
                     />
                 </View>
                 <Text style={styles.text}>Name</Text>
-                <TextInput placeholder="name" style={styles.input}
-                    value={nome} autoCapitalize='none'
-                    onChangeText={(nome) => setNome(nome)} />
+                <TextInput
+                    placeholder="name"
+                    style={styles.input}
+                    value={nome}
+                    autoCapitalize='none'
+                    onChangeText={(nome) => setNome(nome)}
+                />
                 <Text style={styles.text2}>Age</Text>
-
                 <TextInput
                     placeholder="Age"
                     keyboardType="numeric"
@@ -52,38 +84,34 @@ export default function Pet() {
                     autoCapitalize="none"
                     onChangeText={(idade) => handleIdadeChange(idade)}
                 />
-                {/* <TouchableOpacity style={styles.input} onPress={() => setShowDatePicker(true)}>
-                    <Text style={styles.text}>Age: {idade.toLocaleDateString()}</Text>
-                </TouchableOpacity>
-                {showDatePicker && (
-                    <DateTimePicker
-                        testID="dateTimePicker"
-                        value={idade}
-                        mode="date"
-                        is24Hour={true}
-                        display="default"
-                        onChange={handleDateChange}
-                    />
-                )} */}
                 <Text style={styles.text}>Type</Text>
-                <TextInput placeholder="type" style={styles.input}
-                    value={tipo} autoCapitalize='none'
-                    onChangeText={(tipo) => setTipo(tipo)} />
+                <TextInput
+                    placeholder="type"
+                    style={styles.input}
+                    value={tipo}
+                    autoCapitalize='none'
+                    onChangeText={(tipo) => setTipo(tipo)}
+                />
                 <Text style={styles.text}>Breed</Text>
-                <TextInput placeholder="breed" style={styles.input}
-                    value={raca} autoCapitalize='none'
-                    onChangeText={(raca) => setRaca(raca)} />
-                <View>
-                    <TouchableOpacity style={styles.add}>
-                        <Text style={{ color: "#fafafa", fontWeight: 'bold' }}>Add Pet</Text>
-                    </TouchableOpacity>
-                    <View style={styles.info}>
-                        <Text>Add your</Text>
-                        <Text style={styles.texInfo}>Pet</Text>
-                        <Text style={styles.texInfo2}>or</Text>
-                        <Text style={styles.texInfo}>Pets</Text>
-                        <Text style={styles.texInfo2}>:)</Text>
-                    </View>
+                <TextInput
+                    placeholder="breed"
+                    style={styles.input}
+                    value={raca}
+                    autoCapitalize='none'
+                    onChangeText={(raca) => setRaca(raca)}
+                />
+                {cadastroSucesso && (
+                    <Text style={styles.successMessage}>Pet cadastrado com sucesso!</Text>
+                )}
+                <TouchableOpacity style={styles.add} onPress={handleSubmit}>
+                    <Text style={{ color: "#fafafa", fontWeight: 'bold' }}>Add Pet</Text>
+                </TouchableOpacity>
+                <View style={styles.info}>
+                    <Text>Add your</Text>
+                    <Text style={styles.texInfo}>Pet</Text>
+                    <Text style={styles.texInfo2}>or</Text>
+                    <Text style={styles.texInfo}>Pets</Text>
+                    <Text style={styles.texInfo2}>:)</Text>
                 </View>
             </View>
         </TouchableWithoutFeedback>
@@ -115,6 +143,10 @@ const styles = StyleSheet.create({
         marginRight: 260,
         fontSize: 16
     },
+    successMessage: {
+        color: 'green',
+        marginBottom: 10
+    },
     add: {
         backgroundColor: "#7648D4",
         color: "#fafafa",
@@ -136,7 +168,6 @@ const styles = StyleSheet.create({
     texInfo: {
         color: '#7648D4',
         marginLeft: 3,
-
     },
     texInfo2: {
         marginLeft: 3,
@@ -150,4 +181,4 @@ const styles = StyleSheet.create({
         width: 150,
         height: 150,
     },
-})
+});

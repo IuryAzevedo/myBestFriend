@@ -4,6 +4,10 @@ import LottieView from "lottie-react-native";
 import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import DropDownPicker from "react-native-dropdown-picker";
+import { api } from "../../services/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Toast } from "toastify-react-native";
+
 export default function Portion() {
     const [nome, setNome] = useState('');
     const [preco, setPreco] = useState<number | undefined>(undefined);
@@ -18,6 +22,34 @@ export default function Portion() {
         { label: 'Apple', value: 'apple' },
         { label: 'Banana', value: 'banana' }
     ]);
+
+    const handleSubmit = async () => {
+        const token = await AsyncStorage.getItem('@myBestfriend')
+        cadastroRaco(token);
+
+        async function cadastroRaco(token: string | null) {
+            console.log("token", token);
+            try {
+                const requestBody = {
+                    nome,
+                    tipo,
+                    quantidade: Number(quantidade),
+                    preco: Number(preco),
+                    dataRacao: dataRacao
+                };
+                await api.post("/addracao", requestBody, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    }
+                })
+                    .then(() => Toast.success('Ração cadastrada!', 'top'))
+                    .catch((error) => Toast.error('Erro no cadastro', 'top'));
+            } catch (error) {
+                console.log('Erro ao cadastrar a ração', error);
+            }
+        }
+    }
+
     const dismissKeyboard = () => {
         Keyboard.dismiss()
     }
@@ -40,7 +72,7 @@ export default function Portion() {
                 <View style={styles.lottieView}>
                     <LottieView
                         style={styles.lottie}
-                        source={require("../../assets/petwalk.json")}
+                        source={require("../../assets/food.json")}
                         autoPlay
                         loop
                     />
@@ -49,7 +81,7 @@ export default function Portion() {
                 <View style={styles.viewPickers}>
                     <Text style={styles.text2}>Date of buy</Text>
                     <TouchableOpacity style={styles.datePicker} onPress={() => setShowDatePicker(true)}>
-                        <Text style={styles.text4}>Date: {dataRacao.toLocaleDateString()}</Text>
+                        <Text style={styles.text4}>Date of buy: {dataRacao.toLocaleDateString()}</Text>
                     </TouchableOpacity>
                     {showDatePicker && (
                         <DateTimePicker
@@ -79,8 +111,8 @@ export default function Portion() {
                 <TextInput placeholder="type of portion" style={styles.input}
                     value={tipo} autoCapitalize='none'
                     onChangeText={(tipo) => setTipo(tipo)} />
-                <Text style={styles.text5}>Quantity</Text>
-                <TextInput placeholder="quantity" style={styles.input}
+                <Text style={styles.text5}>Quantity in kg</Text>
+                <TextInput placeholder="quantity in kg" style={styles.input}
                     keyboardType="numeric"
                     value={quantidade?.toString()} autoCapitalize='none'
                     onChangeText={(quantidade) => handleQuantidadeChange(quantidade)} />
@@ -91,7 +123,7 @@ export default function Portion() {
                     onChangeText={(preco) => handlePrecoChange(preco)} />
                 <View>
                     <TouchableOpacity style={styles.add}>
-                        <Text style={{ color: "#fafafa", fontWeight: 'bold' }}>Add Portion</Text>
+                        <Text style={{ color: "#fafafa", fontWeight: 'bold' }} onPress={() => handleSubmit()}>Add Portion</Text>
                     </TouchableOpacity>
                     <View style={styles.info}>
                         <Text>Add</Text>
@@ -121,6 +153,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         gap: 1,
+        width: 550
     },
     input: {
         width: 297,
@@ -138,7 +171,7 @@ const styles = StyleSheet.create({
         marginRight: 260,
         fontSize: 16
     },
-    text3:{
+    text3: {
         marginRight: 190,
         fontSize: 16
     },
@@ -148,8 +181,9 @@ const styles = StyleSheet.create({
         padding: 5
     },
     text5: {
-        marginRight: 240,
+        marginRight: 200,
         fontSize: 16,
+
     },
     add: {
         backgroundColor: "#7648D4",
@@ -185,21 +219,22 @@ const styles = StyleSheet.create({
     lottie: {
         width: 150,
         height: 150,
+        marginBottom: 20
     },
     datePicker: {
         height: 46,
-        width: 100,
+        width: 120,
         backgroundColor: '#D9D9D9',
-        marginRight: 5,
+        marginRight: 0,
         borderRadius: 8,
-        left: 235,
+        left: 75,
     },
     dropDowPicker: {
         height: 46,
         width: 100,
         backgroundColor: '#D9D9D9',
-        marginRight: 5,
         borderRadius: 8,
-        left: 20,
+        left: 90,
+
     }
 })
