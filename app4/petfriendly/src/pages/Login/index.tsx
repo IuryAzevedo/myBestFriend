@@ -13,15 +13,21 @@ import LottieView from "lottie-react-native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { AuthContext } from "../../context/AuthContext";
 import { Toast } from "toastify-react-native";
+import User from "../User";
 
 function Login() {
-  const { singIn } = useContext(AuthContext)
+  const { singIn, isAuthenticated } = useContext(AuthContext)
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState('');
 
-
+  useEffect(() => {
+    if (isAuthenticated) {
+    //@ts-ignore
+    navigation.navigate("Main")
+    }
+  }, [isAuthenticated,])
 
   async function handleLogin() {
     if (email === '' || password === '') {
@@ -30,14 +36,14 @@ function Login() {
     }
 
     await singIn({ email, password })
-    .then(() => {
-      Toast.success('Bem vindo!' )
-      console.log('usuário logado');
-      handleLoginPress()
-    }) .catch((error) => {
-      console.log('erro ao fazer login', error);
-      Toast.error('erro ao fazer login', 'top')
-    })
+      .then(() => {
+        Toast.success('Bem vindo!')
+        console.log('usuário logado');
+        handleLoginPress()
+      }).catch((error) => {
+        console.log('erro ao fazer login', error);
+        Toast.error('erro ao fazer login', 'top')
+      })
   }
 
   const handleLoginPress = () => {

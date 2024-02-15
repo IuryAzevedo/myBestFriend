@@ -1,12 +1,12 @@
 import { useState, createContext, ReactNode, useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { api } from "../services/api";
-
 type AuthContextData = {
     user: UserProps,
     isAuthenticated: boolean,
     singIn: (info: SignInProps) => Promise<void>
-
+    signOut: (info: SignInProps) => Promise<void>
 }
 type UserProps = {
     id: string;
@@ -14,16 +14,13 @@ type UserProps = {
     email: string;
     token: string;
 };
-
 type AuthProviderProps = {
     children: ReactNode;
 };
-
 type SignInProps = {
     email: string;
     password: string;
 };
-
 interface SignInResponseProps {
     id: string,
     nome: string,
@@ -32,7 +29,6 @@ interface SignInResponseProps {
 }
 
 export const AuthContext = createContext({} as AuthContextData);
-
 export function AuthProvider({ children }: AuthProviderProps) {
     const [user, setUser] = useState<UserProps>({
         id: "",
@@ -42,7 +38,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     });
 
     const isAuthenticated = !!user.nome;
-
     useEffect(() => {
         async function getUser() {
             const userInfo = await AsyncStorage.getItem('@myBestfriend');
@@ -53,11 +48,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 const user = JSON.parse(userInfo);
                 setUser(user);
             }
+            else{
+                setUser({
+                    id: "",
+                    nome: "",
+                    email: "",
+                    token: ""
+                })
+            }
         }
-
         getUser();
     }, []);
-
 
     async function singIn({ email, password }: SignInProps) {
         try {
@@ -76,9 +77,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
             throw error;
         }
     }
+    async function signOut() {
+        const navigation = useNavigation()     
+        try {
+            await AsyncStorage.clear()
+            setUser({
+                id: '',
+                nome: '',
+                email: '',
+                token: ''
+            });
+            //@ts-ignore
+            navigation.navigate("Login");
+
+        } catch (error) {
+            console.log('Erro ao fazer Logout', error);
+            throw error;
+        }
+    }
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, singIn }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, singIn, signOut}}>
             {children}
         </AuthContext.Provider>
     );

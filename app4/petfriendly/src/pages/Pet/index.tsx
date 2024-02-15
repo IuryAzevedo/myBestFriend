@@ -32,7 +32,7 @@ export default function Pet() {
                 idade,
                 tipo,
                 raca,
-                // owner_id: user.id
+                owner_id: user.id
             };
             await api.post('/addpets', requestBody, {
                 headers: {
