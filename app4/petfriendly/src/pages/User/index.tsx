@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigation } from "@react-navigation/native";
+import { Toast } from "toastify-react-native";
 
 export default function User() {
+    const navigation = useNavigation()
+    const { signOut } = useContext(AuthContext);
+
+    async function handleLogout() {
+        try {
+            await signOut(navigation)
+            Toast.success('Logout realized', 'top');
+        } catch (error) {
+            console.log('ERRO AO FAZER LOGOUT', error);
+
+        }
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.banner}>
@@ -31,7 +47,7 @@ export default function User() {
                 </TouchableOpacity>
                 <View style={styles.divider} />
                 
-                <TouchableOpacity style={styles.cardButton}>
+                <TouchableOpacity style={styles.cardButton} onPress={handleLogout}>
                     <MaterialCommunityIcons name="logout-variant" size={24} color="black" style={styles.logout} />
                     <Text style={styles.textButton}>Logout</Text>
                     <AntDesign name="right" size={16} color="black" style={styles.vector}/>

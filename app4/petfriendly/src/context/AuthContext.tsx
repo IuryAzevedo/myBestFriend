@@ -6,7 +6,7 @@ type AuthContextData = {
     user: UserProps,
     isAuthenticated: boolean,
     singIn: (info: SignInProps) => Promise<void>
-    signOut: (info: SignInProps) => Promise<void>
+    signOut: (navigation: any) => Promise<void>
 }
 type UserProps = {
     id: string;
@@ -48,7 +48,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 const user = JSON.parse(userInfo);
                 setUser(user);
             }
-            else{
+            else {
                 setUser({
                     id: "",
                     nome: "",
@@ -77,8 +77,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
             throw error;
         }
     }
-    async function signOut() {
-        const navigation = useNavigation()     
+    async function signOut(navigation: any) {
         try {
             await AsyncStorage.clear()
             setUser({
@@ -97,7 +96,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, singIn, signOut}}>
+        <AuthContext.Provider value={{ user, isAuthenticated, singIn, signOut }}>
             {children}
         </AuthContext.Provider>
     );
