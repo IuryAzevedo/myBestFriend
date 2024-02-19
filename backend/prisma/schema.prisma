@@ -12,57 +12,62 @@ datasource db {
 
 //criar uma migration yarn prisma migrate dev
 
-
 model User {
-  id String @id @default(uuid())
-  nome String 
-  email String
-  password String
+  id         String    @id @default(uuid())
+  nome       String
+  email      String
+  password   String
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
-  racoes    Racao[]  @relation("UserRacao")
-  pets      Pet[]    @relation("UserPet")  
+  racoes     Racao[]   @relation("UserRacao")
+  pets       Pet[]     @relation("UserPet")
+  images     Image[]   @relation("UserImages")
 
   @@map("users")
-   
 }
 
 model Pet {
-  id String @id @default(uuid())
-  nome String 
-  idade Int
-  tipo String
-  raca String
+  id         String    @id @default(uuid())
+  nome       String
+  idade      Int
+  tipo       String
+  raca       String
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
-  racao Racao? @relation(name: "PetRacao", fields: [racao_id], references: [id])
-  racao_id String?
+  racao      Racao?    @relation(name: "PetRacao", fields: [racao_id], references: [id])
+  racao_id   String?
   // Relacionamento com o proprietário (usuário)
-  owner     User?    @relation("UserPet", fields: [owner_id], references: [id])
-  owner_id  String?
+  owner      User?     @relation("UserPet", fields: [owner_id], references: [id])
+  owner_id   String?
 
   @@map("pets")
-
-  
 }
-
 
 model Racao {
-  id String @id @default(uuid())
-  nome String 
-  tipo String 
-  preco Float
+  id         String    @id @default(uuid())
+  nome       String
+  tipo       String
+  preco      Float
   quantidade Float
-  dataRacao DateTime
+  dataRacao  DateTime
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
-  @@map("racao")
 
-   // Adicione um campo de relação com os pets
-  pets Pet[] @relation(name: "PetRacao")
-    owner       User?    @relation("UserRacao", fields: [owner_id], references: [id])
-    owner_id    String?
-  
+  // Adicione um campo de relação com os pets
+  pets     Pet[]   @relation(name: "PetRacao")
+  owner    User?   @relation("UserRacao", fields: [owner_id], references: [id])
+  owner_id String?
+
+  @@map("racao")
 }
 
+model Image {
+  id        String   @id @default(uuid())
+  url       String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User?    @relation("UserImages", fields: [userId], references: [id])
+  userId    String?
 
+  @@map("images")
+}

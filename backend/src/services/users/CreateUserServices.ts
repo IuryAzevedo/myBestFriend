@@ -5,47 +5,43 @@ interface UserRequest {
     nome: string
     email: string
     password: string
+    photo?: string 
 }
 
 class CreateUserService {
-    async execute({nome, email, password}: UserRequest){
-   
-    //verificar se o email está correto
-    if(!email){
-        throw new Error("email incorreto, tente novamente");
-        
-    }
-    //verificar se o email já está cadastrado 
-    const usuarioExistente = await prismaClient.user.findFirst({
-        where: {
-            email: email
+    async execute({ nome, email, password, photo }: UserRequest) {
+        // Verificar se o email está correto
+        if (!email) {
+            throw new Error("Email incorreto, tente novamente");
         }
-    })
 
-    if(usuarioExistente) {
-        throw new Error("Esse email já existe") 
-    }
+        // Verificar se o email já está cadastrado 
+        const usuarioExistente = await prismaClient.user.findFirst({
+            where: {
+                email: email
+            }
+        });
 
-    const passwordHash = await hash(password, 8)
-
-    const user = await prismaClient.user.create({
-        data: {
-            nome: nome,
-            email: email,
-            password: passwordHash
-        },
-        
-        // aqui no select estou omitindo a senha do usuário
-        select: {
-            id: true,
-            email: true,
-            nome: true
+        if (usuarioExistente) {
+            throw new Error("Esse email já existe");
         }
-    })
-    return user
-   }
 
- }
+        const passwordHash = await hash(password, 8);
 
+        const userData = {
+            nome,
+            email,
+            password: passwordHash,
+            // Adicionar campo photo apenas se estiver presente
+            ...(photo && { photo })
+        };
 
-export { CreateUserService }
+        const user = await prismaClient.user.create({
+            data: userData
+        });
+        
+        return user;
+    }
+}
+
+export { CreateUserService };
