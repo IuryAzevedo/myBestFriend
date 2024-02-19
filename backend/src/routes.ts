@@ -21,6 +21,7 @@ import UpdatePasswordController from "./controllers/user/UpdatePasswordControlle
 //UPLOAD CONFIG FILES
 import uploadConfig from './config/multer'
 import multer from "multer";
+import UpdateProfileController from "./controllers/user/UpdateProfileController";
 
 const router = Router();
 const upload = multer(uploadConfig.upload("./tmp")); 
@@ -30,7 +31,7 @@ router.post('/users',  upload.single('photo'), new CreateUserController().handle
 router.post('/session', new LoginUserController().handle);
 router.get('/userinfo', isAuthAtheticated, new DetailUserController().handle);
 router.put('/updatepass', isAuthAtheticated, new UpdatePasswordController().handle);
-
+router.put('/updateprofile', isAuthAtheticated, upload.single("photo"), new UpdateProfileController().handle);
 
 // ---- ROTAS PETS ----
 router.post('/addpets', isAuthAtheticated, new CadastroPetsController().handle);
