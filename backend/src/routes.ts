@@ -8,6 +8,7 @@ import { DetailUserController } from './controllers/user/DetailUserController';
 //rota de verificação se o usuário está logado "middleware"
 import { isAuthAtheticated } from './services/middlewares/isAuthAuthenticated';
 
+
 // rota de cadastro de pet
 import { CadastroPetsController } from "./controllers/pet/CadastroPetsController";
 

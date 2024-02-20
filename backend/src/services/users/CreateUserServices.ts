@@ -1,21 +1,20 @@
 import prismaClient from '../../prisma';
-import { hash } from 'bcryptjs'
-
+import { hash } from 'bcryptjs';
+import { Express } from 'express';
+import multer from '../../config/multer';
 interface UserRequest {
     nome: string
     email: string
     password: string
-    photo?: string 
+    photo?: Express.Multer.File;
 }
-
 class CreateUserService {
     async execute({ nome, email, password, photo }: UserRequest) {
-        // Verificar se o email está correto
+
         if (!email) {
             throw new Error("Email incorreto, tente novamente");
         }
 
-        // Verificar se o email já está cadastrado 
         const usuarioExistente = await prismaClient.user.findFirst({
             where: {
                 email: email
@@ -28,18 +27,22 @@ class CreateUserService {
 
         const passwordHash = await hash(password, 8);
 
+        let photoPath: string | undefined = undefined;
+        if (photo) {
+            photoPath = photo.path;
+        }
+
         const userData = {
             nome,
             email,
             password: passwordHash,
-            // Adicionar campo photo apenas se estiver presente
-            ...(photo && { photo })
+            photo: photoPath,
         };
 
         const user = await prismaClient.user.create({
             data: userData
         });
-        
+
         return user;
     }
 }
