@@ -27,16 +27,10 @@ class CreateUserService {
 
         const passwordHash = await hash(password, 8);
 
-        let photoPath: string | undefined = undefined;
-        if (photo) {
-            photoPath = photo.path;
-        }
-
         const userData = {
             nome,
             email,
             password: passwordHash,
-            photo: photoPath,
         };
 
         const user = await prismaClient.user.create({

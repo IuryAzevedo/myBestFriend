@@ -10,22 +10,19 @@ class AddRacaoController {
         if (!owner_id) {
             return res.status(401).json({ error: "Usuário não autenticado" });
         }
-
-        
         const cadastroRacao = new AddRacao()
         
         const cadastro = await cadastroRacao.execute({
-        
             nome,
             tipo,
             preco,
             quantidade, 
             dataRacao,
             owner_id
-           
-          
         })
-        return res.json(cadastro)
+        console.log(cadastro);
+        
+        return res.status(200).json(cadastro)
     }
     
 }

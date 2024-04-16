@@ -9,39 +9,41 @@ interface AddRacaoRequest {
     quantidade: number
     dataRacao: Date
     owner_id: string
-   
-   
-} 
+
+
+}
 
 class AddRacao {
-    async execute({ nome, tipo,  preco, quantidade, dataRacao, owner_id}: AddRacaoRequest) {
-       
+    async execute({ nome, tipo, preco, quantidade, dataRacao, owner_id }: AddRacaoRequest) {
 
-        if(nome.trim() === '') {
-            throw new Error("você não castrou nenhuma ração");
-        }
-        
-        const addRacao = await prismaClient.racao.create({
-            data: {
-                nome,
-                tipo,
-                preco,
-                quantidade, 
-                dataRacao,
-                owner_id
-            },
-            select: {
-                id: true,
-                nome: true,
-                tipo: true,
-                preco: true,
-                quantidade: true,
-                dataRacao: true
-               
+
+        try {
+            const addRacao = await prismaClient.racao.create({
+                data: {
+                    nome,
+                    tipo,
+                    preco,
+                    quantidade,
+                    dataRacao,
+                    owner_id
+                },
+                select: {
+                    id: true,
+                    nome: true,
+                    tipo: true,
+                    preco: true,
+                    quantidade: true,
+                    dataRacao: true
+
+                }
+            })
+            return addRacao;
+
+        } catch (error) {
+            if (!nome) {
+                throw new Error("você não castrou nenhuma ração");
             }
-        })
-
-        return addRacao;
+        }
     }
 }
 

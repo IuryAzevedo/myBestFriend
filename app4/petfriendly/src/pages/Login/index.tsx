@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Keyboard,
   TouchableWithoutFeedback,
+  Image
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native-gesture-handler";
@@ -66,6 +67,7 @@ function Login() {
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={styles.container}>
         <View style={styles.lottieView}>
+          <Image source={require('../../assets/tittle.png')}/>
           <LottieView
             style={styles.lottie}
             source={require("../../assets/cat.json")}

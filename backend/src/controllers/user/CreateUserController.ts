@@ -6,7 +6,7 @@ class CreateUserController {
     
 
     async handle(req: Request, res: Response,) {
-        const { nome, email, password, photo } = req.body;
+        const { nome, email, password} = req.body;
         const createUserService = new CreateUserService();
         // console.log(req.file);
         
@@ -15,7 +15,6 @@ class CreateUserController {
                 nome,
                 email,
                 password,
-                ...(photo && { photo }) 
             };
 
             const user = await createUserService.execute(userData);
