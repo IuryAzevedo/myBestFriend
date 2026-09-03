@@ -27,7 +27,7 @@ export default function PetName() {
         autoFocus
       />
 
-      <View style={{ flex: 1 }} />
+      <View style={{ flex: 1, marginTop: 25 }} />
       <Button
         label="Continuar"
         icon="chevron-forward"
