@@ -9,7 +9,7 @@ export function OnboardingHeader({ step, total = 5 }: { step: number; total?: nu
   return (
     <View style={styles.wrap}>
       <View style={styles.topRow}>
-        <Pressable onPress={() => router.back()} hitSlop={12}>
+        <Pressable onPress={() => router.back()} hitSlop={16} style={styles.backButton}>
           <Ionicons name="chevron-back" size={24} color={theme.color.text} />
         </Pressable>
         <Text style={styles.label}>
@@ -31,4 +31,12 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.sm,
   },
   label: { ...type.bodyStrong, color: theme.color.brand },
+  backButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: theme.color.surfaceAlt,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

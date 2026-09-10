@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import { router } from "expo-router";
 import { Screen } from "../../src/components/Screen";
 import { Button } from "../../src/components/Button";
@@ -13,8 +13,13 @@ export default function PetConfirm() {
 
   return (
     <Screen style={{ backgroundColor: theme.color.brand }}>
-      <MaterialIcons name="keyboard-arrow-left" size={35} color="black" style={{marginTop: 20 }} 
-      onPress={() => router.push('/(onboarding)/pet-breed')}/>
+      <Pressable
+        onPress={() => router.back()}
+        hitSlop={16}
+        style={styles.backButton}
+      >
+        <MaterialIcons name="keyboard-arrow-left" size={35} color={theme.color.white} />
+      </Pressable>
       <View style={styles.center}>
         <View style={styles.avatar}>
           <PawIcon size={56} color={theme.color.brand} />
@@ -42,6 +47,7 @@ export default function PetConfirm() {
 }
 
 const styles = StyleSheet.create({
+  backButton: { position: "absolute", top: 16, left: 20, zIndex: 1 },
   center: { flex: 1, alignItems: "center", justifyContent: "center" },
   avatar: {
     width: 120,
