@@ -7,12 +7,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#FBF3E7"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -34,8 +28,16 @@
     },
     "plugins": [
       "expo-router",
-      "expo-font"
-      
+      "expo-font",
+      "expo-status-bar",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#FBF3E7"
+        }
+      ]
     ]
   }
 }
